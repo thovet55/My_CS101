@@ -6,7 +6,7 @@
 
 在遍历列表时同时获取索引和值，比 `range(len(lst))` 更 Pythonic。
 
-```
+```python
 items = ['a', 'b', 'c']
 
 # 基础用法
@@ -22,7 +22,7 @@ for index, value in enumerate(items, start=1):
 
 同时遍历多个序列。
 
-```
+```python
 names = ['Alice', 'Bob']
 scores = [95, 88]
 
@@ -39,7 +39,7 @@ nums, chars = zip(*zipped)  # nums=(1, 2), chars=('a', 'b')
 
 考试中快速生成列表的神器。
 
-```
+```python
 # [表达式 for 变量 in 列表 if 条件]
 nums = [1, 2, 3, 4, 5]
 squares = [x**2 for x in nums if x % 2 == 0] # [4, 16]
@@ -57,7 +57,7 @@ matrix = [[0] * n for _ in range(m)]
 
 如果要用大顶堆，通常存入负数 (-value, item)。
 
-```
+```python
 import heapq
 
 nums = [3, 1, 4, 1, 5]
@@ -84,7 +84,7 @@ smallest_3 = heapq.nsmallest(3, [3, 1, 4, 1, 5])
 - Deque 在头尾操作都是 $O(1)$。
     
 
-```
+```python
 from collections import deque
 
 d = deque([1, 2, 3])
@@ -104,7 +104,7 @@ d.rotate(-1) # 向左轮转 1 位
 
 快速统计元素出现次数。
 
-```
+```python
 from collections import Counter
 
 s = "abracadabra"
@@ -124,7 +124,7 @@ print(c1 - c2) # Counter({'a': 2}) -> b消失因为 1-2 < 0
 
 处理字典键不存在的情况（图论建图常用）。
 
-```
+```python
 from collections import defaultdict
 
 # 默认值为 int 的 0
@@ -145,7 +145,7 @@ for u, v in edges:
 
 `sort()` 是原地排序，`sorted()` 返回新列表。
 
-```
+```python
 data = [(1, 'apple'), (3, 'banana'), (2, 'cherry')]
 
 # 基础排序
@@ -164,7 +164,7 @@ students.sort(key=lambda x: (-x[1], x[0]))
 
 ### 字符串魔法
 
-```
+```python
 text = " Hello World "
 
 # 去除首尾空白
@@ -186,7 +186,7 @@ print(f"{x:03d}") # "005"
 
 ### 数学与进制
 
-```
+```python
 # 进制转换
 bin(10)  # '0b1010'
 hex(15)  # '0xf'
@@ -209,7 +209,7 @@ max(1, 2, key=abs) # 按绝对值比较
 
 题目输入量大时，使用 `sys.stdin` 比 `input()` 快。
 
-```
+```python
 import sys
 
 # 读取所有行
@@ -226,14 +226,26 @@ for line in sys.stdin:
 
 Python 默认递归深度限制为 1000，DFS 题目容易 RE (Runtime Error)。
 
-```
+```python
 import sys
 sys.setrecursionlimit(20000) # 调大限制
 ```
 
+### Lru Cache
+
+对于可哈希的函数，用内存省时间
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def function(n):
+    #自定义函数
+```
+
 ### 常用常量
 
-```
+```python
 float('inf')  # 正无穷 (用于找最小值初始值)
 float('-inf') # 负无穷
 ```
