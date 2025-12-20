@@ -238,8 +238,83 @@ float('inf')  # 正无穷 (用于找最小值初始值)
 float('-inf') # 负无穷
 ```
 
+## 6. 正则表达式 (Regex)
 
------
+### 1. 基础语法
+| 符号 | 描述 | 示例 |
+| :--- | :--- | :--- |
+| `.` | 匹配**除换行符外**的任意字符 | `a.c` -> abc |
+| `^` / `$` | 匹配字符串的**开头** / **结尾** | `^Hi` / `bye$` |
+| `*` / `+` | 重复 **0次及以上** / **1次及以上** | `ab*`, `ab+` |
+| `?` | 重复 **0次或1次**（非贪婪模式的基础） | `ab?` |
+| `{n,m}` | 重复 **n 到 m 次** | `\d{3,5}` |
+| `[]` | 字符集，匹配括号内任意一个字符 | `[a-zA-Z]` |
+| `|` | 或逻辑 | `cat|dog` |
+| `()` | **分组**，用于提取特定部分 | `(\d+)-(.*)` |
+| `\` | 转义字符 | `\.`, `\*`, `\\` |
+
+### 2. 预定义序列 (常用)
+- `\d`: 数字 `[0-9]` (Digit)
+- `\D`: 非数字
+- `\w`: 单词字符 `[a-zA-Z0-9_]` (Word)
+- `\W`: 非单词字符
+- `\s`: 空白字符（空格、Tab、换行） (Space)
+- `\S`: 非空白字符
+- `\b`: 单词边界 (Boundary)
+
+---
+
+### 3. Python `re` 模块函数
+
+> [!WARNING] **match vs search**
+> - `re.match()`: **必须从字符串第一个字符开始匹配**，否则返回 None。
+> - `re.search()`: **扫描整个字符串**，返回第一个成功的匹配。
+
+```python
+import re
+
+text = "Rank 01: Chemistry"
+
+# 1. re.search(pattern, string) -> 返回 Match 对象或 None
+m = re.search(r'\d+', text)
+if m:
+    print(m.group())  # '01'
+
+# 2. re.findall(pattern, string) -> 返回 字符串列表 (最常用)
+items = re.findall(r'\w+', text) # ['Rank', '01', 'Chemistry']
+
+# 3. re.sub(pattern, repl, string) -> 替换
+new_text = re.sub(r'\d+', '99', text) # "Rank 99: Chemistry"
+
+# 4. re.split(pattern, string) -> 分割
+parts = re.split(r':\s*', text) # ['Rank 01', 'Chemistry']
+```
+
+### 4. 高级技巧
+#### A. 分组提取 (Groups)
+```python
+s = "2025-12-20"
+m = re.search(r'(\d{4})-(\d{2})-(\d{2})', s)
+if m:
+    year = m.group(1)   # '2025'
+    all_parts = m.groups() # ('2025', '12', '20')
+```
+#### B. 贪婪 vs 非贪婪
+- **贪婪 (默认)**: `<a><b>` 用 `<.*>` 匹配结果为 `<a><b>`
+- **非贪婪 (`?`)**: `<a><b>` 用 `<.*?>` 匹配结果为 `<a>` (遇到第一个符合条件的就停止)
+#### C. 修饰符 (Flags)
+- `re.I`: 忽略大小写 (Ignorecase)
+- `re.S`: 让 `.` 匹配包括换行符在内的所有字符 (Dotall)
+- `re.M`: 多行模式 (Multiline)
+```python
+# 示例：忽略大小写搜索
+re.findall(r'pku', 'PKU pku Pku', re.I) # ['PKU', 'pku', 'Pku']
+```
+
+### 5.  考试小贴士
+1. **Raw String**: 写正则表达式时，务必在字符串前加 `r`（例如 `r'\d+'`），防止 Python 自身的转义干扰。 
+2. **返回值检查**: `re.search` 和 `re.match` 返回的是对象，直接 `print` 会显示 `<re.Match object...>`，记得加 `.group()` 拿结果。 
+3. **空匹配**: 注意 `*` 可以匹配 0 次，有时会导致 `findall` 返回一堆空字符串，考试时如果发现结果不对，检查是否应该用 `+`。
 
 # Algorithm & Examples
 ## 第一部分：核心数据结构 (Core Data Structures)
