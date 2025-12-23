@@ -328,6 +328,103 @@ re.findall(r'pku', 'PKU pku Pku', re.I) # ['PKU', 'pku', 'Pku']
 2. **返回值检查**: `re.search` 和 `re.match` 返回的是对象，直接 `print` 会显示 `<re.Match object...>`，记得加 `.group()` 拿结果。 
 3. **空匹配**: 注意 `*` 可以匹配 0 次，有时会导致 `findall` 返回一堆空字符串，考试时如果发现结果不对，检查是否应该用 `+`。
 
+## 7. ASCII 编码与字符处理
+
+### 1. 基本概念
+
+- **全称**：American Standard Code for Information Interchange。
+    
+- **范围**：标准 ASCII 使用 **7 位**二进制，共 **128个** 字符（0-127）。
+    
+- **特点**：Python 3 中的字符串默认是 **Unicode**（UTF-8），但 ASCII 是其子集。
+    
+
+### 2. Python 核心函数
+
+> [!NOTE] **转换双雄**
+> 
+> - `ord(char)`：将**字符**转换为对应的 **ASCII/Unicode 数值**。
+>     
+> - `chr(int)`：将 **ASCII/Unicode 数值**转换为对应的**字符**。
+>     
+
+Python
+
+```
+# 示例
+print(ord('A'))    # 65
+print(chr(97))     # 'a'
+
+# 考试常见陷阱：比较字符大小
+# 字符比较本质上是比较它们的 ASCII 值
+print('apple' > 'Apple') # True, 因为 'a'(97) > 'A'(65)
+```
+
+### 3. 必背常用 ASCII 码段
+
+|**字符范围**|**数值范围**|**跨度**|**备注**|
+|---|---|---|---|
+|**`0 - 9`**|`48 - 57`|10个|记住 0 是 48|
+|**`A - Z`**|`65 - 90`|26个|记住 A 是 65|
+|**`a - z`**|`97 - 122`|26个|记住 a 是 97|
+|**空格**|`32`|-|最小的可打印字符|
+
+> [!TIP] 大小写转换逻辑
+> 
+> 同一字母的小写 ASCII 值比大写 大 32。
+> 
+> chr(ord('A') + 32) $\rightarrow$ 'a'
+
+### 4. 转义字符 (Escape Characters)
+
+在 Python 字符串处理中，这些 ASCII 字符经常作为分界符出现：
+
+|**转义符**|**描述**|**ASCII 值**|
+|---|---|---|
+|`\n`|换行符 (Line Feed)|10|
+|`\r`|回车符 (Carriage Return)|13|
+|`\t`|制表符 (Tab)|9|
+|`\\`|反斜杠本身|92|
+|`\'` / `\"`|单/双引号|39 / 34|
+
+### 5. 考试高频应用场景
+
+#### A. 判断字符类型 (不调包做法)
+
+虽然常用 `char.isdigit()` 或 `char.isalpha()`，但有时考试会限制：
+
+Python
+
+```
+# 判断是否为大写字母
+if 'A' <= char <= 'Z':
+    print("Is Uppercase")
+
+# 判断是否为数字字符
+if 48 <= ord(char) <= 57:
+    print("Is Digit")
+```
+
+#### B. 简单位移加密 (凯撒密码)
+
+Python
+
+```
+# 将字符向后移动 3 位
+original = 'A'
+cipher = chr(ord(original) + 3) # 'D'
+```
+
+#### C. 字符串清理
+
+在处理计算化学数据（如 PDB 文件或实验数据）时，经常需要处理不可见字符：
+
+Python
+
+```
+# 去除字符串两端的空白符（包括 \n, \t, \r）
+clean_data = "  7.45 \n".strip() # '7.45'
+```
 # Algorithm & Examples
 ## 第一部分：核心数据结构 (Core Data Structures)
 
