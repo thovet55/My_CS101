@@ -243,6 +243,14 @@ def function(n):
     #自定义函数
 ```
 
+对于不可哈希的变量，采用以下方法，本身也具有开销：
+
+| **原类型 (Unhashable)** | **转换后 (Hashable)** | **转换代码**                     |
+| -------------------- | ------------------ | ---------------------------- |
+| **`list`**           | **`tuple`**        | `tuple(my_list)`             |
+| **`set`**            | **`frozenset`**    | `frozenset(my_set)`          |
+| **`dict`**           | **`frozenset`**    | `frozenset(my_dict.items())` |
+
 ### 常用常量
 
 ```python
